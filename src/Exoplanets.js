@@ -17,8 +17,15 @@ export default function Exoplanets() {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log(data);
-        setExoplanets(data);
+
+          const formattedData = data.map(exoplanet => ({
+            name: exoplanet.pl_name,
+            year: exoplanet.disc_year,
+            method: exoplanet.discoverymethod,
+            facility: exoplanet.disc_facility,
+          }));
+  
+        setExoplanets(formattedData);
       } catch (err) {
         setError(err.message);
       } finally {

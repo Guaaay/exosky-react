@@ -1,22 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import { Box, List, ListItem, ListItemText, Skeleton, Typography } from '@mui/material';
-import Lista from './Lista';
-import InsightsIcon from '@mui/icons-material/Insights';
+import { Box, Skeleton, Typography } from '@mui/material';
+import Lista from './Lista-Const';
+import PublicIcon from '@mui/icons-material/Public';
 import Heading from './Heading';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+
 
 export default function Constellations() {
-    const constellations = [
-        { name: 'Orion', info: 'A prominent constellation located on the celestial equator and visible throughout the world.' , likes:150},
-        { name: 'Ursa Major', info: 'Known as the Great Bear, Ursa Major contains the Big Dipper asterism.',  likes:17},
-        { name: 'Cassiopeia', info: 'A constellation named after the queen Cassiopeia in Greek mythology, known for its distinctive "W" shape.',  likes:600 },
-        { name: 'Scorpius', info: 'A large and bright constellation located in the southern hemisphere.',  likes:0},
-        { name: 'Andromeda', info: 'Named after the mythological princess Andromeda, it contains the Andromeda Galaxy.',  likes:3 },
-      ];
-      
-    return (
-        <Box sx={{ padding: 8 }}>
-        <Heading heading="See what others have created" />
-        <Lista items={constellations}  Icon={InsightsIcon} />
-        </Box>
-    );
+  const [constellations, setConstellations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchConstellations = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/constellations'); // Adjusted API endpoint
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+
+        const formattedData = data.map(constellation => ({
+          id_exoplanet: constellation.id_exoplanet, // Assuming the API provides this field
+          name: constellation.name,
+          info: constellation.description, // Using "description" as "info"
+          user: constellation.user, // If you need to display user, include this as well
+          likes: constellation.likes,
+        }));
+
+        setConstellations(formattedData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchConstellations();
+  }, []);
+
+  if (loading) {
+    return <Skeleton variant="rectangular" height={400} />;
+  }
+
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
+  }
+
+  return (
+    <Box sx={{ padding: 8 }}>
+      <Heading heading="Select Your Constellation!" />
+      <Lista items={constellations} Icon={AutoGraphIcon} />
+    </Box>
+  );
 }

@@ -23,18 +23,18 @@ export default function LandingPage() {
 
         <Hero />
         {/* <Heading heading="Create your own mithology" /> */}
-          <LogoCollection />
+          {/* <LogoCollection /> */}
           {/* <Features /> */}
-          <Divider />
+          {/* <Divider />
           <Testimonials />
           <Divider />
           <Highlights />
-          <Divider />
+          <Divider /> */}
           {/* <Pricing /> */}
           {/* <Divider /> */}
           {/* <FAQ /> */}
           {/* <Divider /> */}
-          <Footer />
+          {/* <Footer /> */}
         </div>
       {/* // </ThemeProvider> */}
     </Box>

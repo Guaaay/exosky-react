@@ -22,7 +22,7 @@ export default function Lista({ items, Icon }) {
           gap: 2,
         }}
       >
-        {items.map(({ name, info, likes, dislikes }, index) => (
+        {items.map(({ name, likes, dislikes }, index) => (
           <Box
             key={index}
             component={Button}
@@ -74,7 +74,6 @@ export default function Lista({ items, Icon }) {
                         
               {/* <PublicIcon /> */}
             </Box>
-              <Typography variant="body2">{info}</Typography> {/* Description of the item */}
             </Box>
           </Box>
         ))}

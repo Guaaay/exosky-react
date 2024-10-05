@@ -5,15 +5,38 @@ import PublicIcon from '@mui/icons-material/Public';
 import Heading from './Heading';
 
 export default function Exoplanets() {
-  
-  //sustituir esto leyendo el csv
-  const exoplanets = [
-    { name: 'Proxima Centauri b', info: 'An Earth-sized exoplanet orbiting Proxima Centauri.' },
-    { name: 'Kepler-452b', info: 'The first near-Earth-size planet discovered in the habitable zone.' },
-    { name: 'TRAPPIST-1e', info: 'One of the seven Earth-sized planets orbiting the ultracool dwarf star TRAPPIST-1.' },
-    { name: 'LHS 1140 b', info: 'A super-Earth exoplanet located 40 light-years away in the constellation of Centaurus.' },
-    { name: 'HD 209458 b', info: 'An exoplanet in the constellation Pegasus that is the first to have its atmosphere detected.' },
-  ];
+  const [exoplanets, setExoplanets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchExoplanets = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/exoplanets');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log(data);
+        setExoplanets(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExoplanets();
+  }, []);
+
+  if (loading) {
+    return <Skeleton variant="rectangular" height={400} />;
+  }
+
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
+  }
+
 
   return (
     <Box sx={{ padding: 8 }}>

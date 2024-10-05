@@ -1,14 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import InputLabel from '@mui/material/InputLabel';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-
-import { visuallyHidden } from '@mui/utils';
 import { styled } from '@mui/material/styles';
 
 const StyledBox = styled('div')(({ theme }) => ({
@@ -36,7 +30,7 @@ const StyledBox = styled('div')(({ theme }) => ({
   }),
 }));
 
-export default function Hero() {
+export default function Heading({ heading }) {  // Add heading prop with default value
   return (
     <Box
       id="hero"
@@ -57,14 +51,10 @@ export default function Hero() {
           flexDirection: 'column',
           alignItems: 'center',
           pt: { xs: 14, sm: 20 },
-          pb: { xs: 8, sm: 12 },
+          pb: { xs: 0, sm: 0 },
         }}
       >
-        <Stack
-          spacing={2}
-          useFlexGap
-          sx={{ alignItems: 'center', width: { xs: '100%', sm: '70%' } }}
-        >
+    
           <Typography
             variant="h1"
             sx={{
@@ -74,23 +64,9 @@ export default function Hero() {
               fontSize: 'clamp(3rem, 10vw, 3.5rem)',
             }}
           >
-            Create your own&nbsp;
-            <Typography
-              component="span"
-              variant="h1"
-              sx={(theme) => ({
-                fontSize: 'inherit',
-                color: 'primary.main',
-                ...theme.applyStyles('dark', {
-                  color: 'primary.light',
-                }),
-              })}
-            >
-              mythology
-            </Typography>
+            {heading}&nbsp; {/* Use the heading prop */}
+            
           </Typography>
-        </Stack>
-        {/* <StyledBox id="image" /> */}
       </Container>
     </Box>
   );

@@ -12,9 +12,9 @@ export default function Lista({ items, Icon }) {
   const navigate = useNavigate();
 
   // Usa el id en lugar de index para redirigir a la subpágina correspondiente
-  const handleItemClick = (id) => {
+  const handleItemClick = (id,item) => {
     setSelectedItemIndex(id);
-    navigate(`/exoplanets/${id}`);  // Redirige usando el id, no el index
+    navigate(`/exoplanets/exo?id=${id}&planet_ra=${item.ra}&planet_dec=${item.dec}`, { state: { item } });
   };
 
   return (
@@ -43,7 +43,7 @@ export default function Lista({ items, Icon }) {
                 },
               }),
             ]}
-            onClick={() => handleItemClick(item.id)}  // Usa el id en lugar de index
+            onClick={() => handleItemClick(item.id, item)}  // Usa el id en lugar de index
 
           >
             <Box

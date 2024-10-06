@@ -22,7 +22,9 @@ export default function Exoplanets() {
           year: exoplanet.disc_year,
           method: exoplanet.discoverymethod,
           facility: exoplanet.disc_facility,
-          id: exoplanet.id, 
+          id: exoplanet.id,
+          dec: exoplanet.dec,
+          ra: exoplanet.ra,
         }));
   
         setExoplanets(formattedData);

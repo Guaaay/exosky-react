@@ -34,12 +34,17 @@ class Exoplanet(BaseModel):
     discoverymethod: str
     disc_facility: str
     id: int
+    ra: float
+    dec: float
+
+
 class Constellation(BaseModel):
     id: int              # ID de la constelación
     id_exoplanet: int    # ID del exoplaneta relacionado
     name: str           # Nombre de la constelación
     description: str    # Descripción de la constelación
     user: str           # Usuario relacionado
+    stars: str          # Estrellas relacionadas
     likes: int          # Número de likes
 
 def get_db_connection():
@@ -70,7 +75,7 @@ async def get_exoplanets(limit: int = 30):
     cursor = conn.cursor()
     try:
         # Ejecuta la consulta para obtener los exoplanetas hasta el límite
-        cursor.execute("SELECT pl_name, disc_year, discoverymethod, disc_facility, id FROM pluton.exoplanets LIMIT ?", (limit,))
+        cursor.execute("SELECT pl_name, disc_year, discoverymethod, disc_facility, id, ra, `dec` FROM pluton.exoplanets LIMIT ?", (limit,))
         rows = cursor.fetchall()
 
         # Set para almacenar los nombres únicos de exoplanetas
@@ -87,7 +92,7 @@ async def get_exoplanets(limit: int = 30):
                 filtered_exoplanets.append(row)
 
         # Retorna solo los exoplanetas con nombres únicos
-        return [Exoplanet(pl_name=row[0], disc_year=row[1], discoverymethod=row[2], disc_facility=row[3], id=row[4]) for row in filtered_exoplanets]
+        return [Exoplanet(pl_name=row[0], disc_year=row[1], discoverymethod=row[2], disc_facility=row[3], id=row[4], ra=row[5], dec=row[6]) for row in filtered_exoplanets]
 
     except mariadb.Error as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -130,7 +135,7 @@ async def get_constellations(limit: int = 10):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("SELECT id_exoplanet, name, description, user, likes, id FROM pluton.constellations LIMIT ?", (limit,))
+        cursor.execute("SELECT id_exoplanet, name, description, user, likes, id, stars FROM pluton.constellations LIMIT ?", (limit,))
         rows = cursor.fetchall()
         
         # Assuming the cursor.description gives us the column names
@@ -143,6 +148,24 @@ async def get_constellations(limit: int = 10):
         cursor.close()
         conn.close()
         
+
+@app.post("/api/constellations")
+async def create_constellation(constellation: Constellation):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("INSERT INTO pluton.constellations (id_exoplanet, name, description, user, likes, stars) VALUES (?, ?, ?, ?, ?, ?)", 
+                          (constellation.id_exoplanet, constellation.name, constellation.description, constellation.user, constellation.likes, constellation.stars))
+        conn.commit()
+        return {"id": cursor.lastrowid, **constellation.dict()}
+    except mariadb.Error as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
+        
+
 @app.get("/api/all")
 async def get_exoplanets_all(limit: int = 10):
     conn = get_db_connection()

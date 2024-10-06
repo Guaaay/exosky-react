@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Box, Skeleton, Typography, CircularProgress } from '@mui/material';
 import Lista from './Lista-Const';
 import PublicIcon from '@mui/icons-material/Public';
 import Heading from './Heading';
@@ -40,7 +40,21 @@ export default function Constellations() {
   }, []);
 
   if (loading) {
-    return <Skeleton variant="rectangular" height={400} />;
+    return (
+      <Box
+        sx={{
+          padding: 30,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      <Heading heading="Loading data... Please wait" />
+    </Box>
+    );
   }
 
   if (error) {

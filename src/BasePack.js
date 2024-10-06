@@ -11,6 +11,8 @@ import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import getMPTheme from './theme/getMPTheme';
+import Typography from '@mui/material/Typography';
+
 import { Outlet } from 'react-router-dom'; 
 
 export default function BasePack() {
@@ -47,6 +49,7 @@ export default function BasePack() {
   return (
       <ThemeProvider theme={showCustomTheme ? MPTheme : defaultTheme}>
         <CssBaseline enableColorScheme />
+
         <AppAppBar />
 
         

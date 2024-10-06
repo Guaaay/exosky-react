@@ -5,9 +5,17 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import { useNavigate } from 'react-router-dom'; // Importa el hook useNavigate
 
 export default function Lista({ items, Icon }) {
   const [selectedItemIndex, setSelectedItemIndex] = React.useState(0);
+  const navigate = useNavigate();
+
+  // Usa el id en lugar de index para redirigir a la subpágina correspondiente
+  const handleItemClick = (id) => {
+    setSelectedItemIndex(id);
+    navigate(`/constellations/${id}`);  // Redirige usando el id, no el index
+  };
 
   return (
     <Container id="features2" sx={{ py: { xs: 4, sm: 7 } }}>
@@ -20,7 +28,7 @@ export default function Lista({ items, Icon }) {
           gap: 2,
         }}
       >
-        {items.map(({ name, info, user, likes }, index) => (
+        {items.map(({id, name, info, user, likes }, index) => (
           <Box
             key={index}
             component={Button}
@@ -35,6 +43,8 @@ export default function Lista({ items, Icon }) {
                 },
               }),
             ]}
+            onClick={() => handleItemClick(item.id)}  // Usa el id en lugar de index
+
           >
             <Box
               sx={{

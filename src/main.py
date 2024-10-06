@@ -27,6 +27,14 @@ class Exoplanet(BaseModel):
     disc_year: int
     discoverymethod: str
     disc_facility: str
+    id: int
+class Constellation(BaseModel):
+    id: int              # ID de la constelación
+    id_exoplanet: int    # ID del exoplaneta relacionado
+    name: str           # Nombre de la constelación
+    description: str    # Descripción de la constelación
+    user: str           # Usuario relacionado
+    likes: int          # Número de likes
 
 def get_db_connection():
     try:
@@ -41,14 +49,47 @@ async def get_exoplanets(limit: int = 10):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("SELECT pl_name, disc_year, discoverymethod, disc_facility FROM pluton.exoplanets LIMIT ?", (limit,))
+        cursor.execute("SELECT pl_name, disc_year, discoverymethod, disc_facility, id FROM pluton.exoplanets LIMIT ?", (limit,))
         rows = cursor.fetchall()
-        return [Exoplanet(pl_name=row[0], disc_year=row[1], discoverymethod=row[2], disc_facility=row[3]) for row in rows]
+        return [Exoplanet(pl_name=row[0], disc_year=row[1], discoverymethod=row[2], disc_facility=row[3],id=row[4]) for row in rows]
     except mariadb.Error as e:
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         cursor.close()
         conn.close()
+
+@app.get("/api/exoplanets_sin_repe", response_model=list[Exoplanet])
+async def get_exoplanets(limit: int = 30):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        # Ejecuta la consulta para obtener los exoplanetas hasta el límite
+        cursor.execute("SELECT pl_name, disc_year, discoverymethod, disc_facility, id FROM pluton.exoplanets LIMIT ?", (limit,))
+        rows = cursor.fetchall()
+
+        # Set para almacenar los nombres únicos de exoplanetas
+        unique_names = set()
+
+        # Lista para almacenar los exoplanetas filtrados
+        filtered_exoplanets = []
+
+        # Recorremos las filas y solo añadimos aquellos exoplanetas con nombre único
+        for row in rows:
+            exoplanet_name = row[0]
+            if exoplanet_name not in unique_names:
+                unique_names.add(exoplanet_name)
+                filtered_exoplanets.append(row)
+
+        # Retorna solo los exoplanetas con nombres únicos
+        return [Exoplanet(pl_name=row[0], disc_year=row[1], discoverymethod=row[2], disc_facility=row[3], id=row[4]) for row in filtered_exoplanets]
+
+    except mariadb.Error as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
+
 
 @app.get("/api/exoplanets_name")
 async def get_exoplanets(limit: int = 10):
@@ -112,7 +153,38 @@ async def get_exoplanets_all(limit: int = 10):
     finally:
         cursor.close()
         conn.close()
+        
+@app.get("/api/constellations/{id}", response_model=Constellation)
+async def get_constellation(id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        # Asegúrate de que la columna de ID de la constelación es la correcta en la tabla
+        cursor.execute("SELECT id, id_exoplanet, name, description, user, likes FROM pluton.constellations WHERE id = ?", (id,))
+        row = cursor.fetchone()
+        if row is None:
+            raise HTTPException(status_code=404, detail="Constellation not found")
+        return Constellation(id=row[0], id_exoplanet=row[1], name=row[2], description=row[3], user=row[4], likes=row[5])
+    except mariadb.Error as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
 
 
-
+@app.get("/api/constellations/{id}", response_model=Constellation)
+async def get_constellation(id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT id_exoplanet, name, description, user FROM pluton.constellations WHERE id = ?", (id,))
+        row = cursor.fetchone()
+        if row is None:
+            raise HTTPException(status_code=404, detail="Constellation not found")
+        return Constellation(id=row[0],name=row[1], description=row[2], user=row[3])
+    except mariadb.Error as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
 # To run the app, use: `uvicorn main:app --reload`

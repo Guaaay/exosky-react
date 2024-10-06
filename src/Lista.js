@@ -5,9 +5,16 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import PublicIcon from '@mui/icons-material/Public';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
+import { useNavigate } from 'react-router-dom'; // Importa el hook useNavigate
 export default function Lista({ items, Icon }) {
   const [selectedItemIndex, setSelectedItemIndex] = React.useState(0);
+  const navigate = useNavigate();
+
+  // Usa el id en lugar de index para redirigir a la subpágina correspondiente
+  const handleItemClick = (id) => {
+    setSelectedItemIndex(id);
+    navigate(`/exoplanets/${id}`);  // Redirige usando el id, no el index
+  };
 
   return (
     <Container id="features" sx={{ py: { xs: 4, sm: 7 } }}>
@@ -20,9 +27,9 @@ export default function Lista({ items, Icon }) {
           gap: 2,
         }}
       >
-        {items.map((item, index) => (
+        {items.map((item) => (
           <Box
-            key={index}
+            key={item.id}  // Usa el id como key
             component={Button}
             sx={[
               (theme) => ({
@@ -35,7 +42,8 @@ export default function Lista({ items, Icon }) {
                 },
               }),
             ]}
-            onClick={() => setSelectedItemIndex(index)} // Optional: Handle item selection
+            onClick={() => handleItemClick(item.id)}  // Usa el id en lugar de index
+
           >
             <Box
               sx={{
@@ -67,13 +75,6 @@ export default function Lista({ items, Icon }) {
               <Typography variant="body2" color="text.primary">
                 Discovered in {item.year} by {item.facility} using {item.method}
               </Typography>
-              {/* Optional Likes/Dislikes (if applicable) */}
-              {typeof item.likes === 'number' && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  <FavoriteBorderIcon fontSize="small" sx={{ color: 'green' }} />
-                  <Typography variant="body2">{item.likes}</Typography>
-                </Box>
-              )}
             </Box>
           </Box>
         ))}

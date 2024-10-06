@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import BasePack from './BasePack';
 import Constellations from './Constellations';
 import About from './About';
+import ExoplanetDetail from './ExoplanetDetail';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
           
           {/* Route for the Exoplanets page */}
           <Route path="/exoplanets" element={<Exoplanets />} />
+
+          {/* Dynamic route for individual Exoplanet details */}
+          <Route path="/exoplanets/:id" element={<ExoplanetDetail />} /> {/* Ruta dinámica para /exoplanets/{id} */}
 
           {/* Route for the Constellations page */}
           <Route path="/constellations" element={<Constellations />} />

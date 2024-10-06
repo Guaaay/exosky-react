@@ -4,17 +4,15 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import { useNavigate } from 'react-router-dom'; // Importa el hook useNavigate
 
 export default function Lista({ items, Icon }) {
-  const [selectedItemIndex, setSelectedItemIndex] = React.useState(0);
   const navigate = useNavigate();
 
-  // Usa el id en lugar de index para redirigir a la subpágina correspondiente
+  // Maneja el clic en un elemento de la lista
   const handleItemClick = (id) => {
-    setSelectedItemIndex(id);
-    navigate(`/constellations/${id}`);  // Redirige usando el id, no el index
+    console.log(`Selected ID: ${id}`); // Para verificar
+    navigate(`/constellations/${id}`); // Redirige usando el id
   };
 
   return (
@@ -28,11 +26,11 @@ export default function Lista({ items, Icon }) {
           gap: 2,
         }}
       >
-        {items.map(({id, name, info, user, likes }, index) => (
+        {items.map((item) => ( // Aquí se usa item directamente
           <Box
-            key={index}
+            key={item.id} // Usa el id como key
             component={Button}
-            sx={[
+            sx={[ 
               (theme) => ({
                 p: 2,
                 height: '100%',
@@ -43,8 +41,7 @@ export default function Lista({ items, Icon }) {
                 },
               }),
             ]}
-            onClick={() => handleItemClick(id)}
-
+            onClick={() => handleItemClick(item.id)} // Usa el id directamente
           >
             <Box
               sx={{
@@ -71,116 +68,24 @@ export default function Lista({ items, Icon }) {
                 }}
               >
                 {Icon && <Icon />} {/* Display the passed Icon component */}
-                <Typography variant="h6">{name}</Typography> {/* Name of the item */}
-                
+                <Typography variant="h6">{item.name}</Typography> {/* Name of the item */}
+
                 {/* Display likes next to the name */}
-                {typeof likes === 'number' && (
+                {typeof item.likes === 'number' && (
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                     <FavoriteBorderIcon fontSize="small" sx={{ color: 'green' }} />
-                    <Typography variant="body2">{likes}</Typography>
+                    <Typography variant="body2">{item.likes}</Typography>
                   </Box>
                 )}
-                <Typography variant="h6">ID:{id}</Typography> {/* Name of the item */}
-
               </Box>
-
             </Box>
 
-              <Typography variant="body2" color="text.primary">
-                {info} {/* Display the info parameter */}
-              </Typography>
+            <Typography variant="body2" color="text.primary">
+              {item.info} {/* Display the info parameter */}
+            </Typography>
           </Box>
         ))}
       </Box>
     </Container>
   );
 }
-
-
-// import * as React from 'react';
-// import Box from '@mui/material/Box';
-// import Button from '@mui/material/Button';
-// import Container from '@mui/material/Container';
-// import Typography from '@mui/material/Typography';
-// import ViewQuiltRoundedIcon from '@mui/icons-material/ViewQuiltRounded';
-// import PublicIcon from '@mui/icons-material/Public';
-// import InsightsIcon from '@mui/icons-material/Insights';
-// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
-// export default function Lista({ items, Icon }) {
-//   const [selectedItemIndex, setSelectedItemIndex] = React.useState(0);
-
-//   return (
-//     <Container id="features" sx={{ py: { xs: 4, sm: 7 } }}>
-//       <Box
-//         sx={{
-//           display: 'flex',
-//           flexDirection: 'column',
-//           alignItems: 'center',
-//           width: '100%',
-//           gap: 2,
-//         }}
-//       >
-//         {items.map(({ name, info, user, likes, dislikes }, index) => (
-//           <Box
-//             key={index}
-//             component={Button}
-//             sx={[
-//               (theme) => ({
-//                 p: 2,
-//                 height: '100%',
-//                 width: '100%',
-//                 justifyContent: 'flex-start',
-//                 '&:hover': {
-//                   backgroundColor: theme.palette.action.hover,
-//                 },
-//               }),
-//             ]}
-//           >
-//             <Box
-//               sx={{
-//                 width: '100%',
-//                 display: 'flex',
-//                 flexDirection: 'column',
-//                 alignItems: 'flex-start',
-//                 gap: 1,
-//                 textAlign: 'left',
-//                 textTransform: 'none',
-//                 color: 'text.secondary',
-//               }}
-//             >
-//             <Box
-//               sx={{
-//                 width: '100%',
-//                 display: 'flex',
-//                 flexDirection: 'row', // Display icon and name in a row
-//                 alignItems: 'center', // Vertically center icon and name
-//                 gap: 1,
-//                 textAlign: 'left',
-//                 textTransform: 'none',
-//                 color: 'text.secondary',
-//             }}
-//             >
-//               {Icon && <Icon />} {/* Display the passed Icon component */}
-//               <Typography variant="h6">{name}</Typography> {/* Name of the item */}
-//                     {/* Optional Likes/Dislikes */}
-//                     {typeof likes === 'number' && (
-//                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-//                             <FavoriteBorderIcon fontSize="small" sx={{ color: 'green' }} /> 
-//                             <Typography variant="body2">{likes}</Typography>
-//                         </Box>
-//                         )}
-
-                        
-//               {/* <PublicIcon /> */}
-//             </Box>
-//                 <Typography variant="body2" color="text.primary">
-//                   {info} {/* Display the info parameter */}
-//                 </Typography>
-//             </Box>
-//           </Box>
-//         ))}
-//       </Box>
-//     </Container>
-//   );
-// }

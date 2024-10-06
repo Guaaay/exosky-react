@@ -26,9 +26,9 @@ export default function Lista({ items, Icon }) {
           gap: 2,
         }}
       >
-        {items.map((item) => ( // Aquí se usa item directamente
+        {items.map((item) => ( 
           <Box
-            key={item.id} // Usa el id como key
+            key={item.id} 
             component={Button}
             sx={[ 
               (theme) => ({
@@ -41,7 +41,7 @@ export default function Lista({ items, Icon }) {
                 },
               }),
             ]}
-            onClick={() => handleItemClick(item.id)} // Usa el id directamente
+            // onClick={() => handleItemClick(item.id)}
           >
             <Box
               sx={{
@@ -80,9 +80,17 @@ export default function Lista({ items, Icon }) {
               </Box>
             </Box>
 
+            <Box sx={{ width: '100%', marginY: 1, justifyContent: 'center' }}>
+            <audio controls>
+              <source src={item.audioUrl} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </Box>
+          <Box sx={{ width: '100%', marginY: 1, justifyContent: 'center' }}>
             <Typography variant="body2" color="text.primary">
-              {item.info} {/* Display the info parameter */}
+              {item.info} 
             </Typography>
+          </Box>
           </Box>
         ))}
       </Box>

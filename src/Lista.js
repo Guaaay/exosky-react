@@ -56,6 +56,7 @@ export default function Lista({ items, Icon }) {
                 textAlign: 'left',
                 textTransform: 'none',
                 color: 'text.secondary',
+                
               }}
             >
               <Box

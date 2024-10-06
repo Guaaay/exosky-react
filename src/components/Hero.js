@@ -43,11 +43,11 @@ export default function Hero() {
       sx={(theme) => ({
         width: '100%',
         backgroundRepeat: 'no-repeat',
-        backgroundImage:
-          'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 90%), transparent)',
-        ...theme.applyStyles('dark', {
-          backgroundImage:
-            'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 16%), transparent)',
+      // Remove backgroundImage or keep it as a fallback
+      // backgroundImage:
+      //   'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 90%), transparent)',
+      ...theme.applyStyles('dark', {
+        backgroundColor: 'transparent', 
         }),
       })}
     >
@@ -58,12 +58,19 @@ export default function Hero() {
           alignItems: 'center',
           pt: { xs: 14, sm: 20 },
           pb: { xs: 8, sm: 12 },
+          backgroundColor: 'transparent', 
+              border: 'none', // Remove any border
+              boxShadow: 'none', // Remove any box shadow
         }}
       >
         <Stack
           spacing={2}
           useFlexGap
-          sx={{ alignItems: 'center', width: { xs: '100%', sm: '70%' } }}
+          sx={{ alignItems: 'center', width: { xs: '100%', sm: '70%' }, 
+          backgroundColor: 'transparent', 
+          border: 'none', // Remove any border
+          boxShadow: 'none', // Remove any box shadow 
+          }}
         >
           <Typography
             variant="h1"
@@ -71,22 +78,27 @@ export default function Hero() {
               display: 'flex',
               flexDirection: { xs: 'column', sm: 'row' },
               alignItems: 'center',
-              fontSize: 'clamp(3rem, 10vw, 3.5rem)',
+              // fontSize: 'clamp(3rem, 10vw, 3.5rem)',
+              fontSize: 'clamp(1.5rem, 5vw, 2.5rem)', // Ajustar aquí
+              backgroundColor: 'transparent', 
+              border: 'none', // Remove any border
+              boxShadow: 'none', // Remove any box shadow
             }}
           >
-            Create your own&nbsp;
+            Weaving myths among the&nbsp;
             <Typography
               component="span"
               variant="h1"
               sx={(theme) => ({
                 fontSize: 'inherit',
-                color: 'primary.main',
+                // color: 'primary.main',
+                color: '#C75050',
                 ...theme.applyStyles('dark', {
-                  color: 'primary.light',
+                  color: '#C75050',
                 }),
               })}
             >
-              mythology
+              STARS
             </Typography>
           </Typography>
         </Stack>

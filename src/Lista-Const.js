@@ -43,7 +43,7 @@ export default function Lista({ items, Icon }) {
                 },
               }),
             ]}
-            onClick={() => handleItemClick(item.id)}  // Usa el id en lugar de index
+            onClick={() => handleItemClick(id)}
 
           >
             <Box
@@ -80,6 +80,8 @@ export default function Lista({ items, Icon }) {
                     <Typography variant="body2">{likes}</Typography>
                   </Box>
                 )}
+                <Typography variant="h6">ID:{id}</Typography> {/* Name of the item */}
+
               </Box>
 
             </Box>

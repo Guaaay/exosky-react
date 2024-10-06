@@ -10,6 +10,7 @@ import BasePack from './BasePack';
 import Constellations from './Constellations';
 import About from './About';
 import ExoplanetDetail from './ExoplanetDetail';
+import ConstellationDetail from './ConstellationDetail';
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
 
           {/* Route for the Constellations page */}
           <Route path="/constellations" element={<Constellations />} />
+
+          {/* Dynamic route for individual Exoplanet details */}
+          <Route path="/constellations/:id" element={<ConstellationDetail />} /> {/* Ruta dinámica para /exoplanets/{id} */}
 
           {/* Route for the About page */}
           <Route path="/about" element={<About />} />

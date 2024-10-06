@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import PublicIcon from '@mui/icons-material/Public';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useNavigate } from 'react-router-dom'; // Importa el hook useNavigate
+
 export default function Lista({ items, Icon }) {
   const [selectedItemIndex, setSelectedItemIndex] = React.useState(0);
   const navigate = useNavigate();

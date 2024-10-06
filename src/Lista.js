@@ -12,9 +12,9 @@ export default function Lista({ items, Icon }) {
   const navigate = useNavigate();
 
   // Usa el id en lugar de index para redirigir a la subpágina correspondiente
-  const handleItemClick = (id) => {
-    setSelectedItemIndex(id);
-    navigate(`/exoplanets/${id}`);  // Redirige usando el id, no el index
+  const handleItemClick = (item) => {
+    setSelectedItemIndex(item.id);
+    navigate(`/exoplanets/${item.id}`);  // Redirige usando el id, no el index
   };
 
   return (
@@ -43,7 +43,7 @@ export default function Lista({ items, Icon }) {
                 },
               }),
             ]}
-            onClick={() => handleItemClick(item.id)}  // Usa el id en lugar de index
+            onClick={() => handleItemClick(item)}  // Usa el id en lugar de index
 
           >
             <Box
@@ -56,6 +56,7 @@ export default function Lista({ items, Icon }) {
                 textAlign: 'left',
                 textTransform: 'none',
                 color: 'text.secondary',
+                
               }}
             >
               <Box

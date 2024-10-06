@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import AppAppBar from './components/AppAppBar';
@@ -16,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import { Outlet } from 'react-router-dom'; 
 
 export default function BasePack() {
-  const [mode, setMode] = React.useState('light');
+  const [mode, setMode] = React.useState('dark');
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
   const MPTheme = createTheme(getMPTheme(mode));
   const defaultTheme = createTheme({ palette: { mode } });
@@ -32,7 +33,9 @@ export default function BasePack() {
       const systemPrefersDark = window.matchMedia(
         '(prefers-color-scheme: dark)',
       ).matches;
-      setMode(systemPrefersDark ? 'dark' : 'light');
+      // setMode(systemPrefersDark ? 'dark' : 'light');
+
+      setMode('dark');
     }
   }, []);
 
@@ -47,14 +50,15 @@ export default function BasePack() {
   };
 
   return (
-      <ThemeProvider theme={showCustomTheme ? MPTheme : defaultTheme}>
-        <CssBaseline enableColorScheme />
+      // <ThemeProvider theme={showCustomTheme ? MPTheme : defaultTheme}>
+
+      <ThemeProvider theme={MPTheme}>
+      <CssBaseline enableColorScheme />
 
         <AppAppBar />
 
         
         <Outlet />  
-        
       </ThemeProvider>
   );
 }

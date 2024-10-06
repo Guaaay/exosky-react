@@ -13,7 +13,7 @@ const ExoplanetDetail = () => {
   useEffect(() => {
     const fetchExoplanetDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/exoplanets/${id}`); // Suponiendo que tienes un endpoint para obtener el exoplaneta por id
+        const response = await fetch(`https://api.exomythology.earth/api/exoplanets/${id}`); // Suponiendo que tienes un endpoint para obtener el exoplaneta por id
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -83,7 +83,7 @@ const ExoplanetDetail = () => {
         }}
       >
         <iframe
-          src="URL_TO_YOUR_GODOT_GAME/index.html" 
+          src="/game/index.html" 
           style={{ width: '100%', height: '100%', border: 'none' }} 
           title="Godot Game"
         />

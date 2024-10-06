@@ -11,7 +11,7 @@ export default function Exoplanets() {
   useEffect(() => {
     const fetchExoplanets = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/exoplanets_sin_repe');
+        const response = await fetch('https://api.exomythology.earth/api/exoplanets_sin_repe');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

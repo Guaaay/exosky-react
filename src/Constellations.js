@@ -14,7 +14,7 @@ export default function Constellations() {
   useEffect(() => {
     const fetchConstellations = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/constellations'); // Adjusted API endpoint
+        const response = await fetch('https://api.exomythology.earth/api/constellations'); // Adjusted API endpoint
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

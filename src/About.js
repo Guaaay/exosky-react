@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Container, Typography } from '@mui/material';
+import { Link } from '@mui/material';
 
 export default function About() {
   return (
@@ -32,6 +33,21 @@ export default function About() {
         <Typography variant="body1" align="center" paragraph>
           <strong>Exomythology</strong> is an interactive 3D web platform 🌐 that allows users to create, explore, share, and comment on stories while gazing at the stars, creating and admiring constellations from different exoplanets 🪐. Users will experience the ancient tradition of storytelling under the bright sky of a planet light-years away from our earth 🌌, and they will be encouraged and allowed to share these stories with their peers 👥. <strong>Exomythology</strong> aims to restore our species' curiosity and passion for the most arcane knowledge found in the stars 🌠.
         </Typography>
+
+  {/* Additional link for more information */}
+
+        <Typography variant="body1" align="center" paragraph>
+    For more information, please visit the{' '}
+    <Link 
+      href="https://www.spaceappschallenge.org/nasa-space-apps-2024/find-a-team/pluton/?tab=project" // Replace with your actual link
+      target="_blank" // Opens the link in a new tab
+      rel="noopener noreferrer" // Security feature
+      sx={{ color: 'primary.main', textDecoration: 'underline' }} // Style the link
+    >
+      website of our challenge
+    </Link>{' '}
+    where you can see the rest of the challenges.
+  </Typography>
       </Box>
     </Container>
   );

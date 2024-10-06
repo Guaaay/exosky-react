@@ -79,28 +79,31 @@ const ExoplanetDetail = () => {
     event.preventDefault();
 
     const data = new FormData();
-    data.append('constellation', formData.constellation);
-    data.append('creator', formData.creator);
-    data.append('myth', formData.myth);
-    data.append('audio', formData.audio); // Append the audio file
+    data.append('id_exoplanet', item.id); // Agrega el id del exoplaneta
+    data.append('name', formData.constellation);
+    data.append('description', formData.myth); // Asumiendo que 'myth' es la descripción
+    data.append('user', formData.creator); // Agrega el creador
+    data.append('likes', 0); // Inicializa likes en 0
+    data.append('stars', ''); // Agrega aquí los datos de estrellas si los tienes
 
     try {
-      const response = await fetch('YOUR_API_ENDPOINT_HERE', {
-        method: 'POST',
-        body: data,
-      });
+        const response = await fetch('https://api.exomythology.earth/api/constellations-create', {
+            method: 'POST',
+            body: data,
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to upload the form');
-      }
+        if (!response.ok) {
+            throw new Error('Failed to upload the form');
+        }
 
-      const result = await response.json();
-      console.log('Success:', result);
-      // Optionally reset form or show success message
+        const result = await response.json();
+        console.log('Success:', result);
+        // Opcional: Resetear el formulario o mostrar un mensaje de éxito
     } catch (error) {
-      console.error('Error:', error);
+        console.error('Error:', error);
     }
-  };
+};
+
 
   return (
     <Box
@@ -133,6 +136,8 @@ const ExoplanetDetail = () => {
           }}
           noValidate
           autoComplete="off"
+          onSubmit={handleSubmit} // Asegúrate de agregar esta línea
+
         >
           <TextField
             hiddenLabel
@@ -148,14 +153,19 @@ const ExoplanetDetail = () => {
             size="small"
             placeholder="Creator"
           />
-          <TextField
-            hiddenLabel
-            id="filled-hidden-label-myth"
-            variant="filled"
-            size="small"
-            placeholder="Myth"
-            fullWidth
-          />
+            <TextField
+              name="myth"
+              hiddenLabel
+              variant="filled"
+              size="small"
+              placeholder="Myth"
+              fullWidth
+              multiline // Make it a multiline field
+              minRows={3} // Minimum number of rows for the field
+              maxRows={5} // Maximum number of rows
+              onChange={handleChange}
+              sx={{ width: '100%' }} // Full width
+            />
           <input
             type="file"
             name="audio"
@@ -164,9 +174,17 @@ const ExoplanetDetail = () => {
             style={{ display: 'none' }} // Hide default input
             id="audio-upload" // Give it an ID for the label
           />
+
           <label htmlFor="audio-upload">
-            <Button variant="contained" component="span">
-              Upload Audio
+          <Button 
+              variant="contained" 
+              component="span" 
+              sx={{ 
+                width: '200px', // Set the desired width
+                borderRadius: '8px', // Rounded corners
+                boxShadow: 3, // Adding shadow for depth
+              }}
+  >              Upload Audio
             </Button>
           </label>
           <Button type="submit" variant="contained">
